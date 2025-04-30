@@ -1,0 +1,60 @@
+#font
+font-family=BerkeleyMono Nerd Font
+font-family-bold=BerkeleyMono Nerd Font Bold
+font-family-italic=BerkeleyMono Nerd Font Italic
+font-family-bold-italic=BerkeleyMono Nerd Font Bold Italic
+font-size = 16
+font-style= medium
+
+#theme setup
+theme = catppuccin-mocha
+# background-opacity = 0.96
+
+# cursor
+cursor-style = block
+cursor-style-blink = false
+cursor-invert-fg-bg = true
+
+# keybindings
+keybind = cmd+s>r=reload_config
+keybind = cmd+s>x=close_surface
+keybind = cmd+s>n=new_window
+
+# tabs 
+keybind = cmd+s>shift+t=new_tab
+keybind = cmd+s>shift+l=next_tab
+keybind = cmd+s>shift+h=previous_tab
+keybind = cmd+s>comma=move_tab:-1
+keybind = cmd+s>period=move_tab:1
+
+# quick tab switch
+keybind = cmd+s>1=goto_tab:1
+keybind = cmd+s>2=goto_tab:2
+keybind = cmd+s>3=goto_tab:3
+keybind = cmd+s>4=goto_tab:4
+keybind = cmd+s>5=goto_tab:5
+keybind = cmd+s>6=goto_tab:6
+keybind = cmd+s>7=goto_tab:7
+keybind = cmd+s>8=goto_tab:8
+keybind = cmd+s>9=goto_tab:9
+
+# split
+keybind = cmd+s>\=new_split:right
+keybind = cmd+s>shift+\=new_split:down
+
+keybind = cmd+s>k=goto_split:bottom
+keybind = cmd+s>j=goto_split:top
+keybind = cmd+s>h=goto_split:left
+keybind = cmd+s>l=goto_split:right
+
+#window
+window-padding-balance = true 
+window-save-state = always
+macos-titlebar-style=transparent
+window-colorspace = "display-p3"
+
+# From https://github.com/m-ahdal/ghostty-shaders/tree/main
+#custom-shader = shaders/galaxy.glsl
+#custom-shader = shaders/inside-the-matrix.glsl
+#custom-shader = shaders/starfield-colors.glsl
+
