@@ -5,13 +5,13 @@
 		"longPeriodToRemind": 90,
 		"popCoveragePercent": 0.1,
 		"enabled": true,
-		"daysLeftBeforeSurvey": 27,
+		"daysLeftBeforeSurvey": 26,
 		"surveyName": "userSatisfactionSurvey",
 		"surveyUrl": "https://www.surveymonkey.com/r/6FJGVDV",
-		"lastExtensionUsageDate": "2025-04-28T06:06:52.066Z"
+		"lastExtensionUsageDate": "2025-05-01T10:28:42.122Z"
 	},
 	"tipsConfig": {
-		"daysLeftBeforeGeneralTip": 2,
+		"daysLeftBeforeGeneralTip": 1,
 		"firstTimeMinDaysToRemind": 4,
 		"firstTimeMaxDaysToRemind": 6,
 		"minDaysToRemind": 6,
@@ -34,6 +34,6 @@
 				"networkInspectorLogsColorTheme": {}
 			}
 		},
-		"lastExtensionUsageDate": "2025-04-28T06:06:46.705Z"
+		"lastExtensionUsageDate": "2025-05-01T10:28:20.977Z"
 	}
 }

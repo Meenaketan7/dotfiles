@@ -4,7 +4,7 @@ vim.g.maplocalleader = ' '
 
 -- Default options for keymaps
 local opts = { noremap = true, silent = true }
-
+local km = vim.keymap
 -- Helper to merge opts with description
 local function map(mode, lhs, rhs, desc)
   vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, { desc = desc }))
@@ -78,3 +78,6 @@ map("v", "pp", '"_dP', "Paste over selection without losing clipboard")
 map("n", "<leader>p", [["+p]], "Paste from system clipboard")
 
 map("n", "<leader>dd", ":t.<CR>", "Duplicate current line")
+
+
+
