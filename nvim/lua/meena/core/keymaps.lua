@@ -33,19 +33,19 @@ map("n", "<leader>sx", "<cmd>close<CR>", "Close current split")
 -- Tab Management
 ---------------------
 
-map("n", "<leader>to", "<cmd>tabnew<CR>", "Open new tab")
+map("n", "<leader>tn", "<cmd>tabnew<CR>", "Open new tab")
 map("n", "<leader>tx", "<cmd>tabclose<CR>", "Close current tab")
-map("n", "<leader>tn", "<cmd>tabn<CR>", "Go to next tab")
-map("n", "<leader>tp", "<cmd>tabp<CR>", "Go to previous tab")
-map("n", "<leader>tf", "<cmd>tabnew %<CR>", "Open current buffer in new tab")
+map("n", "<leader>tl", "<cmd>tabn<CR>", "Go to next tab")
+map("n", "<leader>th", "<cmd>tabp<CR>", "Go to previous tab")
+map("n", "<leader>tb", "<cmd>tabnew %<CR>", "Open current buffer in new tab")
 
 ---------------------
 -- Save, Quit, Explore
 ---------------------
 
-map("n", "<C-s>", "<cmd>w<CR>", "Save file")
-map("n", "<C-q>", "<cmd>q<CR>", "Quit file")
-map("n", "<C-e>", ":Explore<CR>", "Open netrw file explorer")
+map("n", "<leader><leader>s", "<cmd>w<CR>", "Save file")
+map("n", "<leader><leader>q", "<cmd>q<CR>", "Quit file")
+map("n", "<leader><leader>e", ":Explore<CR>", "Open netrw file explorer")
 
 ---------------------
 -- Buffer Navigation
@@ -58,8 +58,8 @@ map("n", "<S-Tab>", ":bprevious<CR>", "Go to previous buffer")
 -- Line/Block Movement
 ---------------------
 
-map("v", "J", ":m '>+1<CR>gv=gv", "Move selected block down")
-map("v", "K", ":m '<-2<CR>gv=gv", "Move selected block up")
+map({ "n", "v" }, "J", ":m '>+1<CR>gv=gv", "Move selected block down")
+map({ "n", "v" }, "K", ":m '<-2<CR>gv=gv", "Move selected block up")
 
 ---------------------
 -- Copy, Cut, Paste, Delete
@@ -71,8 +71,7 @@ map("v", "<leader>dl", '"_d', "Delete selection without yanking")
 map("n", "<leader>cc", [["+y]], "Yank line to system clipboard")
 map("v", "<leader>cc", [["+y]], "Yank selection to system clipboard")
 
-map("n", "<leader>cx", [["+d]], "Cut line to system clipboard")
-map("v", "<leader>cx", [["+d]], "Cut selection to system clipboard")
+map({ "n", "v" }, "<leader>cx", [["+d]], "Cut line to system clipboard")
 
 map("v", "pp", '"_dP', "Paste over selection without losing clipboard")
 map("n", "<leader>p", [["+p]], "Paste from system clipboard")

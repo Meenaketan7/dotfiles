@@ -42,23 +42,39 @@ return {
         },
         actions = {
           files = {
+            true,
             ["ctrl-y"] = { fn = get_line_and_path, exec_silent = true },
           },
         },
       })
 
-      local km = vim.keymap
-        km.set("n", "<Leader>fff", fzf.files, { desc = "Find files in project" })
-        km.set("n", "<Leader>ffb", fzf.builtin, {desc = "fzf builtin commands"})
-        km.set("n", "<Leader>ffg", fzf.live_grep_native, { desc = "Grep text in files (live)" })
-        km.set("n", "<Leader>f<Leader>f", fzf.lgrep_curbuf, { desc = "Live grip in the curent file" })
-        km.set("n", "<Leader>fds", fzf.lsp_document_symbols, { desc = "Search symbols in current file" })
-        km.set("n", "<Leader>fls", fzf.buffers, { desc = "List open buffers" })
-        km.set("n", "<Leader>ffm", fzf.marks, { desc = "List all marks" })
-        km.set("n", "<Leader>fqf", fzf.quickfix, { desc = "Open quickfix list" })
-        km.set("n", "<Leader>fgs", fzf.git_status, { desc = "View Git status changes" })
-        km.set("n", "<Leader>fgb", fzf.git_branches, { desc = "View Git branch" })
-    end
-  }
+    
+    local km = vim.keymap
+
+    -- File and buffer navigation
+    km.set("n", "<Leader>fff", fzf.files, { desc = "Find files in project" })
+    km.set("n", "<Leader>fls", fzf.buffers, { desc = "List open buffers" })
+    km.set("n", "<Leader>ffr", fzf.resume, { desc = "Resume last FZF search" })
+    km.set("n", "<Leader>ffb", fzf.builtin, { desc = "FZF built-in commands" })
+
+    -- Search
+    km.set("n", "<Leader>ffg", fzf.live_grep_native, { desc = "Live grep in project" })
+    km.set("n", "<Leader>f<Leader>f", fzf.lgrep_curbuf, { desc = "Live grep in current buffer" })
+    km.set("n", "<Leader>ffw", fzf.grep_cword, { desc = "Search word under cursor" })
+    km.set("v", "<Leader>ffv", fzf.grep_visual, { desc = "Search visual selection" })
+
+    -- LSP and symbols
+    km.set("n", "<Leader>fds", fzf.lsp_document_symbols, { desc = "Search document symbols" })
+
+    -- Quickfix and marks
+    km.set("n", "<Leader>fqf", fzf.quickfix, { desc = "Open quickfix list" })
+    km.set("n", "<Leader>ffm", fzf.marks, { desc = "List marks" })
+
+    -- Git
+    km.set("n", "<Leader>fgs", fzf.git_status, { desc = "Show Git status" })
+    km.set("n", "<Leader>fgb", fzf.git_branches, { desc = "Show Git branches" })
+    end,
+  },
 }
+
 
