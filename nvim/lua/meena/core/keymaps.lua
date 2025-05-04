@@ -43,9 +43,9 @@ map("n", "<leader>tb", "<cmd>tabnew %<CR>", "Open current buffer in new tab")
 -- Save, Quit, Explore
 ---------------------
 
-map("n", "<leader><leader>s", "<cmd>w<CR>", "Save file")
-map("n", "<leader><leader>q", "<cmd>q<CR>", "Quit file")
-map("n", "<leader><leader>e", ":Explore<CR>", "Open netrw file explorer")
+map("n", "<leader>ss", "<cmd>w<CR>", "Save file")
+map("n", "<leader>qq", "<cmd>q<CR>", "Quit file")
+map("n", "<leader>ee", ":Explore<CR>", "Open netrw file explorer")
 
 ---------------------
 -- Buffer Navigation

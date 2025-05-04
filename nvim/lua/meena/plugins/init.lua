@@ -3,7 +3,8 @@ return{
  "christoomey/vim-tmux-navigator", -- tmux & split window navigation
  --- Colorschemes
     {
-        'rose-pine/neovim', as = 'rose-pine'
+        'rose-pine/neovim', as = 'rose-pine',
+        priotity=1000,
     },
 
 }
