@@ -115,7 +115,7 @@ return {
               }),
             },
             experimental = {
-              ghost_text = true,
+              ghost_text = false,
             },
           })
 
@@ -167,5 +167,11 @@ return {
         -- make autopairs and completion work together
         cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
       end,
+    },
+    {
+      "kylechui/nvim-surround",
+      event = { "BufReadPre", "BufNewFile" },
+      version = "*", -- Use for stability; omit to use `main` branch for the latest features
+      config = true,
     }
 }

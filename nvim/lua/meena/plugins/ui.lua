@@ -4,21 +4,26 @@ return{
     "stevearc/dressing.nvim",
     event = "VeryLazy",
     },
---indent-blankline
+--indent
     {
-      "lukas-reineke/indent-blankline.nvim",
+      "echasnovski/mini.indentscope",
+      version = false,
       event = { "BufReadPre", "BufNewFile" },
-      main = "ibl",
-      opts = {
-        indent = { char = "┊", tab_char = "┊", },
-      },
-      scope = {
-          show_start = false,
-          show_end = false,
-          show_exact_scope = false,
-      }, 
-
+      config = function()
+        require("mini.indentscope").setup({
+          symbol = "┊",
+          draw = {
+            delay = 0,
+            animation = require("mini.indentscope").gen_animation.none(),
+          },
+          options = {
+            border = "none",
+            indent_at_cursor = true,
+          },
+        })
+      end,
     },
+
 -- bufferline
     {
       "akinsho/bufferline.nvim",
@@ -191,6 +196,17 @@ return{
               lualine.refresh()
             end))
           end,
+        })
+      end,
+    },
+    {
+      "norcalli/nvim-colorizer.lua",
+      event = "BufReadPre",
+      config = function()
+        require("colorizer").setup({
+          "*", -- Enable for all filetypes
+          css = { rgb_fn = true }, -- Support rgb() functions
+          html = { names = true }, -- Enable color names like "red"
         })
       end,
     }
