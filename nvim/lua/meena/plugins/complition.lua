@@ -24,7 +24,7 @@ return {
 
           -- UI / Icons
           "onsails/lspkind.nvim",
-
+        "lukas-reineke/cmp-under-comparator",
           -- GitHub Copilot
           --"zbirenbaum/copilot.lua",
           --"zbirenbaum/copilot-cmp",
@@ -100,18 +100,30 @@ return {
                            
             }),
             sources = cmp.config.sources({
-              { name = "codeium", priority = 100 },
+              { name = "codeium",group_index = 1, priority = 100 },
               --{ name = "copilot" },
-              { name = "nvim_lsp" },
-              { name = "luasnip" },
-              { name = "path" },
-              { name = "buffer" },
+              { name = "nvim_lsp", group_index = 1},
+              { name = "luasnip", group_index = 1},
+              { name = "path", group_index = 2},
+              { name = "buffer", group_index = 2},
             }),
             formatting = {
               format = lspkind.cmp_format({
                 mode = "symbol_text",
                 maxwidth = 50,
                 ellipsis_char = "...",
+                symbol_map = {
+                    Codeium = "",
+                    Copilot = "",
+                },
+                menu = {
+                    buffer = "[Buf]",
+                    nvim_lsp = "[LSP]",
+                    luasnip = "[Snip]",
+                    path = "[Path]",
+                    codeium = "[AI]",
+                    copilot = "[Copilot]",
+                },
               }),
             },
             experimental = {
@@ -167,6 +179,20 @@ return {
         -- make autopairs and completion work together
         cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
       end,
+    },
+    --auto tag
+    {
+      "windwp/nvim-ts-autotag",
+
+      config = function()
+        require('nvim-ts-autotag').setup({
+            opts = {
+              enable_close = true,
+              enable_rename = true,
+              enable_close_on_slash = false,
+            }
+          })
+      end
     },
     {
       "kylechui/nvim-surround",
