@@ -1,4 +1,4 @@
-return{
+return {
   "nvim-tree/nvim-tree.lua",
   cmd = {
     "NvimTreeToggle",
@@ -21,15 +21,54 @@ return{
 
     require("nvim-tree").setup({
       sort = { sorter = "case_sensitive" },
-      view = { width = 30 },
-      renderer = { group_empty = true },
-      filters = { custom = { ".DS_Store" } },
+      view = {
+        width = 30,
+        side = "left",
+        relativenumber = true,
+      },
+
+      renderer = {
+        group_empty = true,
+        highlight_git = true,
+        highlight_diagnostics = true,
+        icons = {
+          show = {
+            file = true,
+            folder = true,
+            folder_arrow = true,
+            git = true,
+            diagnostics = true,
+            modified = true,
+          },
+        },
+        indent_markers = {
+          enable = true,
+        },
+      },
+      filters = { custom = { ".DS_Store", "node_modules" } },
       actions = {
         open_file = {
           window_picker = { enable = false },
         },
       },
-      git = { ignore = false },
+      git = { enable = true, ignore = false, timeout = 500 },
+      diagnostics = {
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = false,
+        debounce_delay = 50,
+        icons = {
+          hint = "",
+          info = "",
+          warning = "",
+          error = "",
+        },
+      },
+      modified = {
+        enable = true,
+        show_on_dirs = true,
+        show_on_open_dirs = true,
+      },
     })
   end,
 }
