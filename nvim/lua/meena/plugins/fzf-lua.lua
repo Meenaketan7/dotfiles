@@ -75,8 +75,8 @@ return {
       km.set("n", "<Leader>flm", fzf.marks, { desc = "List marks" })
 
       -- Git
-      km.set("n", "<Leader><Leader>fgs", fzf.git_status, { desc = "Show Git status" })
-      km.set("n", "<Leader><Leader>fgb", fzf.git_branches, { desc = "Show Git branches" })
+      km.set("n", "<Leader><Leader>gs", fzf.git_status, { desc = "Show Git status" })
+      km.set("n", "<Leader><Leader>gb", fzf.git_branches, { desc = "Show Git branches" })
     end,
   },
 }

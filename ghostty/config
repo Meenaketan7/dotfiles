@@ -7,7 +7,7 @@ font-size = 16
 font-style= medium
 
 #theme setup
-theme = catppuccin-mocha
+theme = solarized-osaka-night
 # background-opacity = 0.96
 
 # cursor
