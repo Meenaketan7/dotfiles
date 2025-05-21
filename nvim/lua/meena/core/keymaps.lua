@@ -1,24 +1,24 @@
 -- Set leader key
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 -- Default options for keymaps
 local opts = { noremap = true, silent = true }
 local km = vim.keymap
 -- Helper to merge opts with description
 local function map(mode, lhs, rhs, desc)
-    vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, { desc = desc }))
+  vim.keymap.set(mode, lhs, rhs, vim.tbl_extend("force", opts, { desc = desc }))
 end
 -- Here is a utility function that closes any floating windows when you press escape
 local function close_floating()
-    for _, win in pairs(vim.api.nvim_list_wins()) do
-        if vim.api.nvim_win_get_config(win).relative == "win" then
-            vim.api.nvim_win_close(win, false)
-        end
+  for _, win in pairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(win).relative == "win" then
+      vim.api.nvim_win_close(win, false)
     end
+  end
 end
 -- Disable default behavior of <Space> in Normal and Visual modes
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+vim.keymap.set({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 
 ---------------------
 -- General Keymaps
@@ -54,7 +54,7 @@ map("n", "<leader>tb", "<cmd>tabnew %<CR>", "Open current buffer in new tab")
 map("n", "<leader>ss", "<cmd>w<CR>", "Save file")
 map("n", "<leader>qq", "<cmd>q<CR>", "Quit file")
 map("n", "<leader>ee", ":Explore<CR>", "Open netrw file explorer")
-
+map("n", "<leader>qa", "<cmd>qa<CR>", "Quit from nvim")
 ---------------------
 -- Buffer Navigation
 ---------------------
@@ -81,10 +81,9 @@ map({ "n", "v" }, "<leader>oc", [["+y]], "Yank line to system clipboard")
 -- Make visual yanks place the cursor back where started
 map("v", "oy", "ygv<Esc>", "Yank and reposition cursor")
 km.set("n", "<esc>", function()
-    close_floating()
-    vim.cmd(":noh")
+  close_floating()
+  vim.cmd(":noh")
 end, { silent = true, desc = "Remove Search Highlighting, Dismiss Popups" })
-
 
 map({ "n", "v" }, "<leader>ox", [["+d]], "Cut line to system clipboard")
 

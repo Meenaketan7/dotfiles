@@ -8,7 +8,7 @@ font-style= medium
 
 #theme setup
 theme = solarized-osaka-night
-# background-opacity = 0.96
+background-opacity = 0.96
 
 # cursor
 cursor-style = block
