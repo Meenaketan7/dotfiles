@@ -30,6 +30,7 @@ require("lazy").setup({
     { import = "meena.plugins" },
     { import = "meena.plugins.lsp" },
     { import = "meena.plugins.git" },
+    { import = "meena.plugins.ui" },
   }, -- Configure any other settings here. See the documentation for more details.
   -- colorscheme that will be used when installing plugins.
   install = { colorscheme = { "habamax" } },
