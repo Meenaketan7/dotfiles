@@ -13,6 +13,14 @@ return {
       python = { "pylint" },
     }
 
+    -- Configure eslint_d to run from the project root
+    lint.linters.eslint_d = {
+      cwd = function()
+        local root = vim.fs.root(0, { "package.json", ".eslintrc.js", ".git" })
+        return root or vim.fn.getcwd()
+      end,
+    }
+
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {

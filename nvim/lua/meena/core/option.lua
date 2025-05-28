@@ -14,7 +14,7 @@ opt.softtabstop = 4 -- Number of spaces that a tab counts for while performing e
 opt.smartindent = true -- Enable smart indentation to automatically adjust indentation based on syntax
 
 -- line wrapping
-opt.wrap = false -- disable line wrapping
+opt.wrap = true -- disable line wrapping
 opt.linebreak = true -- companion to wrap don't split words
 opt.scrolloff = 8
 
@@ -36,7 +36,7 @@ opt.signcolumn = "yes" -- show sign column so that text doesn't shift
 opt.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 
 -- clipboard
-opt.clipboard:append("unnamedplus")-- Sync clipboard between OS and Neovim.
+opt.clipboard:append("unnamedplus") -- Sync clipboard between OS and Neovim.
 
 -- split windows
 opt.splitright = true -- fource split vertical window to the right
@@ -51,10 +51,8 @@ opt.incsearch = true -- Enable incremental search highlighting
 
 opt.undofile = true -- Save undo history
 
-
-
 -- Spellcheck and conceal links etc for markdown files
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = "markdown",
-	command = "set conceallevel=2 | set spell"
+  pattern = "markdown",
+  command = "set conceallevel=2 | set spell",
 })
