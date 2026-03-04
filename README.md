@@ -1,6 +1,4 @@
-# Complete `.config` Documentation (Priority: Neovim)
-
-Generated from `/Users/cepl/.config` on 2026-02-27.
+# Complete `.config` Documentation 
 
 ## Scope and promise
 This document covers:
