@@ -1,2 +1,3 @@
 .DS_Store
-github-copilot/configstore/firebase-tools.json
+github-copilot/
+configstore/firebase-tools.json
