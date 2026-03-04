@@ -61,6 +61,13 @@ return {
 
         "markdownlint",
         "clang-format",
+        -- Swift / iOS
+        "swiftformat",
+        "swiftlint",
+        "codelldb",
+        "xcode-build-server",
+        "xcbeautify",
+        "xcodeprojectcli",
         --linter
         "pylint", -- python linter
         "eslint_d", -- js linter

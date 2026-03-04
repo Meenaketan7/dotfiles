@@ -9,6 +9,7 @@ return {
   config = function()
     --import lsp plugin
     local lspconfig = require("lspconfig")
+    local util = require("lspconfig.util")
     -- import mason_lspconfig plugin
     local mason_lspconfig = require("mason-lspconfig")
     -- import cmp-nvim-lsp plugin
@@ -89,6 +90,37 @@ return {
     })
     -- used to enable autocompletion (assign to every lsp server config)
     local capabilities = cmp_nvim_lsp.default_capabilities()
+
+    -- SourceKit-LSP for Swift/iOS projects uses the Xcode toolchain.
+    local function swift_root_dir(fname)
+      local root = util.root_pattern("Package.swift", ".git")(fname)
+      if root then
+        return root
+      end
+
+      local project = vim.fs.find(function(name, path)
+        return name:match("%.xcodeproj$") or name:match("%.xcworkspace$")
+      end, { path = vim.fs.dirname(fname), upward = true, type = "directory" })[1]
+
+      if project then
+        return vim.fs.dirname(project)
+      end
+
+      return util.path.dirname(fname)
+    end
+
+    lspconfig.sourcekit.setup({
+      capabilities = vim.tbl_deep_extend("force", capabilities, {
+        workspace = {
+          didChangeWatchedFiles = {
+            dynamicRegistration = true,
+          },
+        },
+      }),
+      cmd = vim.fn.executable("sourcekit-lsp") == 1 and { "sourcekit-lsp" } or { "xcrun", "sourcekit-lsp" },
+      filetypes = { "swift", "objective-c", "objective-cpp" },
+      root_dir = swift_root_dir,
+    })
 
     -- Change the Diagnostic symbols in the sign column (gutter)
     -- (not in youtube nvim video)

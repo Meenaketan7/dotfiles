@@ -11,6 +11,7 @@ return {
       typescriptreact = { "eslint_d" },
       svelte = { "eslint_d" },
       python = { "pylint" },
+      swift = { "swiftlint" },
     }
 
     -- Configure eslint_d to run from the project root
@@ -26,6 +27,10 @@ return {
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
       group = lint_augroup,
       callback = function()
+        local bufname = vim.api.nvim_buf_get_name(0)
+        if bufname:match("%.swiftinterface$") then
+          return
+        end
         lint.try_lint()
       end,
     })

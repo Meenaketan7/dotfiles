@@ -8,6 +8,7 @@ return {
     dependencies = {
       "theHamsta/nvim-dap-virtual-text",
       "rcarriga/nvim-dap-ui",
+      "nvim-neotest/nvim-nio",
       {
         "LiadOz/nvim-dap-repl-highlights",
         config = true,
@@ -53,8 +54,9 @@ return {
       -- ╭──────────────────────────────────────────────────────────╮
       -- │ DAP UI Setup                                             │
       -- ╰──────────────────────────────────────────────────────────╯
-      dapui.setup({
-        icons = { expanded = "▾", collapsed = "▸" },
+      if present_dapui and type(dapui) == "table" and dapui.setup then
+        dapui.setup({
+          icons = { expanded = "▾", collapsed = "▸" },
         mappings = {
           -- Use a table to apply multiple mappings
           expand = { "<CR>", "<2-LeftMouse>" },
@@ -107,6 +109,8 @@ return {
           max_type_length = nil, -- Can be integer or nil.
         },
       })
+      end
+
 
       -- ╭──────────────────────────────────────────────────────────╮
       -- │ DAP Setup                                                │
@@ -114,20 +118,22 @@ return {
       dap.set_log_level("TRACE")
 
       -- Automatically open UI
-      dap.listeners.before.attach["dapui_config"] = function()
-        dapui.open()
-      end
-      dap.listeners.before.launch["dapui_config"] = function()
-        dapui.open()
-      end
-      dap.listeners.after.event_initialized["dapui_config"] = function()
-        dapui.open()
-      end
-      dap.listeners.before.event_terminated["dapui_config"] = function()
-        dapui.close()
-      end
-      dap.listeners.before.event_exited["dapui_config"] = function()
-        dapui.close()
+      if present_dapui and type(dapui) == "table" and type(dapui.open) == "function" then
+        dap.listeners.before.attach["dapui_config"] = function()
+          dapui.open()
+        end
+        dap.listeners.before.launch["dapui_config"] = function()
+          dapui.open()
+        end
+        dap.listeners.after.event_initialized["dapui_config"] = function()
+          dapui.open()
+        end
+        dap.listeners.before.event_terminated["dapui_config"] = function()
+          dapui.close()
+        end
+        dap.listeners.before.event_exited["dapui_config"] = function()
+          dapui.close()
+        end
       end
 
       -- Enable virtual text
@@ -177,6 +183,27 @@ return {
           },
         },
       }
+
+      local codelldb_path = vim.fn.stdpath("data") .. "/mason/bin/codelldb"
+      if vim.fn.executable(codelldb_path) == 1 then
+        dap.adapters["codelldb"] = {
+          type = "server",
+          port = "${port}",
+          executable = {
+            command = codelldb_path,
+            args = { "--port", "${port}" },
+          },
+        }
+      elseif vim.fn.executable("codelldb") == 1 then
+        dap.adapters["codelldb"] = {
+          type = "server",
+          port = "${port}",
+          executable = {
+            command = "codelldb",
+            args = { "--port", "${port}" },
+          },
+        }
+      end
 
       -- ╭──────────────────────────────────────────────────────────╮
       -- │ Configurations                                           │
@@ -325,6 +352,19 @@ return {
           },
         }
       end
+
+      dap.configurations.swift = {
+        {
+          name = "Launch Swift executable (codelldb)",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/.build/debug/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = false,
+        },
+      }
     end,
     keys = {
       {

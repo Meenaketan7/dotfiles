@@ -24,7 +24,7 @@ return {
         sh = { "shfmt" },
         -- Mobile / Native
         java = { "clang-format" },
-        swift = { "clang-format" },
+        swift = { "swift", "swiftformat", stop_after_first = true },
         objc = { "clang-format" },
         c = { "clang-format" },
       },
