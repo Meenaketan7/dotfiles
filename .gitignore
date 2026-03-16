@@ -1,3 +1,5 @@
 .DS_Store
 github-copilot/
 configstore/firebase-tools.json
+.nvimlog
+configstore/update-notifier-firebase-tools.json
