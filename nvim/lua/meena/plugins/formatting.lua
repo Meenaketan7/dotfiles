@@ -27,6 +27,9 @@ return {
         swift = { "swift", "swiftformat", stop_after_first = true },
         objc = { "clang-format" },
         c = { "clang-format" },
+        -- Haskell
+        haskell = { "fourmolu" },
+        lhaskell = { "fourmolu" },
       },
       formatters = {
         stylua = {

@@ -38,6 +38,7 @@ Important scope note:
 - `nvim/lua/meena/plugins/dashboard.lua`
 - `nvim/lua/meena/plugins/formatting.lua`
 - `nvim/lua/meena/plugins/fzf-lua.lua`
+- `nvim/lua/meena/plugins/haskell.lua`
 - `nvim/lua/meena/plugins/linting.lua`
 - `nvim/lua/meena/plugins/nvim-tree.lua`
 - `nvim/lua/meena/plugins/package-info.lua`
@@ -312,7 +313,19 @@ Textobject selections:
 - `[p`: parameter outer
 - `]p`: parameter inner
 
-### 12) Additional active plugin default mappings (not overridden here)
+### 12) Haskell mappings (`plugins/haskell.lua`, buffer-local on `haskell`/`lhaskell`/`cabal`/`cabalproject`)
+| Mode | Key | Action |
+| --- | --- | --- |
+| n | `<leader>hh` | Hoogle: type-signature search under cursor |
+| n | `<leader>hs` | Hoogle: signature search (alias) |
+| n | `<leader>hr` | Toggle GHCi REPL |
+| n | `<leader>hf` | REPL for current file |
+| n | `<leader>hq` | Quit REPL |
+| n | `<leader>hea` | Evaluate all code snippets in comments |
+
+Standard LSP keys (`cd`, `cK`, `<leader>ca`, `<leader>crn`, `<leader>mp` format, `[d`/`]d`, etc.) also work in Haskell buffers via the shared `LspAttach` autocmd in `plugins/lsp/lspconfig.lua`.
+
+### 13) Additional active plugin default mappings (not overridden here)
 - `vim-tmux-navigator` is installed via `plugins/init.lua`.
 - No custom override is configured in this repo.
 - Plugin defaults are likely active (commonly `<C-h>`, `<C-j>`, `<C-k>`, `<C-l>`, `<C-\\>`).
@@ -356,10 +369,11 @@ Textobject selections:
 ## Neovim plugin and tooling configuration details
 
 ### LSP servers ensured by Mason (`plugins/lsp/mason.lua`)
-- `ts_ls`, `html`, `cssls`, `jsonls`, `yamlls`, `bashls`, `elixirls`, `marksman`, `tailwindcss`, `svelte`, `lua_ls`, `graphql`, `emmet_ls`, `pyright`
+- `ts_ls`, `html`, `cssls`, `jsonls`, `yamlls`, `bashls`, `elixirls`, `marksman`, `tailwindcss`, `svelte`, `lua_ls`, `graphql`, `emmet_ls`, `pyright`, `hls`
+- `hls` (Haskell Language Server) is installed by Mason but configured by `haskell-tools.nvim` (see `plugins/haskell.lua`); the default `mason-lspconfig` handler is a no-op for `hls` to avoid double-attach.
 
 ### Formatters/linters tools ensured by Mason Tool Installer
-- Formatters/tools: `prettierd`, `prettier`, `stylua`, `isort`, `black`, `shfmt`, `markdownlint`, `clang-format`
+- Formatters/tools: `prettierd`, `prettier`, `stylua`, `isort`, `black`, `shfmt`, `markdownlint`, `clang-format`, `swiftformat`, `swiftlint`, `codelldb`, `xcode-build-server`, `xcbeautify`, `xcodeprojectcli`, `fourmolu`, `stylish-haskell`
 - Linters: `pylint`, `eslint_d`
 
 ### Conform formatter matrix (`plugins/formatting.lua`)
@@ -368,6 +382,7 @@ Textobject selections:
 - Python via `isort` + `black`
 - Shell via `shfmt` (and `beautysh` for bash)
 - C/Java/Swift/ObjC via `clang-format`
+- Haskell (`haskell`, `lhaskell`) via `fourmolu`
 - `format_on_save` enabled with timeout `1000ms`
 
 ### Lint matrix (`plugins/linting.lua`)
@@ -378,6 +393,7 @@ Textobject selections:
 ### Treesitter languages ensured (`plugins/tree-sitter.lua`)
 - Frontend: javascript, typescript, tsx, html, css, scss, svelte, vue, comment, markdown_inline, regex
 - Backend/misc: json, yaml, graphql, bash, dockerfile, prisma, elixir, heex, eex, zig, surface, erlang
+- Haskell: haskell, cabal
 - Mobile/native: java, swift, objc
 - Essentials/docs: markdown, gitignore, lua, vim, vimdoc, query, c
 
@@ -420,7 +436,8 @@ Textobject selections:
 - `nvim/lua/meena/plugins/git/gitsigns.lua`: hunk nav/stage/reset/blame/diff mappings registered per attached buffer.
 - `nvim/lua/meena/plugins/git/lazygit.lua`: command-based lazy loading and one keymap entrypoint.
 - `nvim/lua/meena/plugins/lsp/mason.lua`: Mason UI icons + ensured LSP servers and tooling installers.
-- `nvim/lua/meena/plugins/lsp/lspconfig.lua`: LSP attach mappings, diagnostic sign icons/config, plus server-specific handlers for `svelte`, `graphql`, `emmet_ls`, `lua_ls`, `elixirls`.
+- `nvim/lua/meena/plugins/lsp/lspconfig.lua`: LSP attach mappings, diagnostic sign icons/config, plus server-specific handlers for `svelte`, `graphql`, `emmet_ls`, `lua_ls`, `elixirls`, and a no-op `hls` handler (Haskell LSP is owned by `haskell-tools.nvim`). Also configures `sourcekit` (Swift) directly with an Xcode-aware `root_dir`.
+- `nvim/lua/meena/plugins/haskell.lua`: `mrcjkb/haskell-tools.nvim` (v4) — auto-configures HLS with `cmp_nvim_lsp` capabilities, `fourmolu` formatting, Stan + HLint plugins on, Hoogle (`mode=auto`), code lens auto-refresh, and REPL. Lazy-loads on `haskell`, `lhaskell`, `cabal`, `cabalproject` filetypes.
 - `nvim/lua/meena/plugins/dashboard.lua`: Snacks dashboard sections plus terminal-rendered panda image (`ascii-image-converter ~/.config/nvim/lua/meena/assets/panda.png -C -c`).
 - `nvim/lua/meena/plugins/ui/snacks.lua`: Snacks indent/scope/chunk/notifier config and terminal/history keybinds.
 - `nvim/lua/meena/plugins/ui/bufferline.lua`: LSP diagnostics indicators/icons, NvimTree offset title, excludes `qf`, `fugitive`, `git` filetypes from bufferline.

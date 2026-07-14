@@ -39,6 +39,7 @@ return {
         "graphql",
         "emmet_ls",
         "pyright",
+        "hls", -- Haskell Language Server (configured by haskell-tools.nvim)
       },
     })
     mason_tool_installer.setup({
@@ -71,6 +72,10 @@ return {
         --linter
         "pylint", -- python linter
         "eslint_d", -- js linter
+
+        -- Haskell
+        "fourmolu", -- Haskell formatter
+        "stylish-haskell", -- Haskell formatter (alt)
       },
     })
   end,

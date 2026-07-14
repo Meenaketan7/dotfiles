@@ -209,6 +209,10 @@ return {
             },
           })
         end,
+        ["hls"] = function()
+          -- HLS is configured by haskell-tools.nvim (see plugins/haskell.lua)
+          -- Skip default lspconfig setup to avoid double-attach.
+        end,
       },
       -- make sure to setup null-ls sources for mason
     })

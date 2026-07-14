@@ -54,6 +54,10 @@ return {
         "surface",
         "erlang",
 
+        -- Haskell
+        "haskell",
+        "cabal",
+
         -- React Native & Swift
         "java",
         "swift",
