@@ -81,8 +81,13 @@ return {
         )
         keymap.set("n", "<leader>crn", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename symbol" }))
         keymap.set({ "n", "x" }, "<leader>fr", function()
-          vim.lsp.buf.format({ async = true })
+          require("conform").format({ async = true, lsp_format = "fallback" })
         end, vim.tbl_extend("force", opts, { desc = "Format buffer" }))
+
+        local client = vim.lsp.get_client_by_id(ev.data.client_id)
+        if client and client.name == "oxlint" then
+          keymap.set("n", "<leader>cF", "<cmd>LspOxlintFixAll<CR>", vim.tbl_extend("force", opts, { desc = "Fix all Oxlint issues" }))
+        end
 
         -- Restart LSP
         keymap.set("n", "<leader>crs", "<cmd>LspRestart<CR>", vim.tbl_extend("force", opts, { desc = "Restart LSP" }))
@@ -90,6 +95,31 @@ return {
     })
     -- used to enable autocompletion (assign to every lsp server config)
     local capabilities = cmp_nvim_lsp.default_capabilities()
+
+    -- Start Oxlint with the binary belonging to the buffer's own project.
+    local oxlint_configs = { ".oxlintrc.json", ".oxlintrc.jsonc", "oxlint.config.ts", "oxlint.config.mts" }
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("OxlintLsp", { clear = true }),
+      pattern = { "javascript", "javascriptreact", "typescript", "typescriptreact", "vue", "svelte", "astro" },
+      callback = function(ev)
+        local root = vim.fs.root(ev.buf, oxlint_configs)
+        if not root then
+          return
+        end
+
+        local local_cmd = vim.fs.joinpath(root, "node_modules", ".bin", "oxlint")
+        local cmd = vim.fn.executable(local_cmd) == 1 and local_cmd or "oxlint"
+        if vim.fn.executable(cmd) ~= 1 then
+          return
+        end
+
+        local config = vim.deepcopy(vim.lsp.config.oxlint)
+        config.name = "oxlint"
+        config.cmd = { cmd, "--lsp" }
+        config.root_dir = root
+        vim.lsp.start(config, { bufnr = ev.buf })
+      end,
+    })
 
     -- SourceKit-LSP for Swift/iOS projects uses the Xcode toolchain.
     local function swift_root_dir(fname)

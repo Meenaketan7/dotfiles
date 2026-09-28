@@ -3,20 +3,25 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   config = function()
     local conform = require("conform")
+    local util = require("conform.util")
+    local oxfmt_configs = { ".oxfmtrc.json", ".oxfmtrc.jsonc", "oxfmt.config.ts", "oxfmt.config.mts" }
+    local web_formatters = { "oxfmt", "prettier", stop_after_first = true }
 
     conform.setup({
       formatters_by_ft = {
-        javascript = { "prettier", "prettier", stop_after_first = true },
-        typescript = { "prettier", "prettier", stop_after_first = true },
-        javascriptreact = { "prettier", "prettier", stop_after_first = true },
-        typescriptreact = { "prettier", "prettier", stop_after_first = true },
-        svelte = { "prettier" },
-        css = { "prettier", "prettier" },
-        html = { "prettier", "prettier" },
-        json = { "prettier", "prettier" },
-        yaml = { "prettier", "prettier" },
-        markdown = { "prettier", "prettier" },
-        graphql = { "prettier", "prettier" },
+        javascript = web_formatters,
+        typescript = web_formatters,
+        javascriptreact = web_formatters,
+        typescriptreact = web_formatters,
+        svelte = web_formatters,
+        css = web_formatters,
+        scss = web_formatters,
+        html = web_formatters,
+        json = web_formatters,
+        jsonc = web_formatters,
+        yaml = web_formatters,
+        markdown = web_formatters,
+        graphql = web_formatters,
         liquid = { "prettier" },
         lua = { "stylua" },
         python = { "isort", "black" },
@@ -35,9 +40,16 @@ return {
         stylua = {
           args = { "--indent-width", "2", "--indent-type", "Spaces", "-" },
         },
+        oxfmt = {
+          cwd = util.root_file(oxfmt_configs),
+          require_cwd = true,
+          condition = function(_, ctx)
+            return vim.fs.root(ctx.filename, oxfmt_configs) ~= nil
+          end,
+        },
         prettier = {
           require_cwd = true,
-          cwd = require("conform.util").root_file({
+          cwd = util.root_file({
             "package.json",
             ".prettierrc",
             ".prettierrc.json",
@@ -55,7 +67,7 @@ return {
         },
       },
       format_on_save = {
-        lsp_fallback = true,
+        lsp_format = "fallback",
         async = false,
         timeout_ms = 1000,
       },
@@ -63,7 +75,7 @@ return {
 
     vim.keymap.set({ "n", "v" }, "<leader>mp", function()
       conform.format({
-        lsp_fallback = true,
+        lsp_format = "fallback",
         async = false,
         timeout_ms = 1000,
       })

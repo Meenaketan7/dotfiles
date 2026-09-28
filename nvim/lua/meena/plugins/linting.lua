@@ -3,6 +3,14 @@ return {
   event = { "BufReadPre", "BufNewFile" },
   config = function()
     local lint = require("lint")
+    local oxlint_configs = { ".oxlintrc.json", ".oxlintrc.jsonc", "oxlint.config.ts", "oxlint.config.mts" }
+    local eslint_filetypes = {
+      javascript = true,
+      typescript = true,
+      javascriptreact = true,
+      typescriptreact = true,
+      svelte = true,
+    }
 
     lint.linters_by_ft = {
       javascript = { "eslint_d" },
@@ -14,29 +22,34 @@ return {
       swift = { "swiftlint" },
     }
 
-    -- Configure eslint_d to run from the project root
-    lint.linters.eslint_d = {
-      cwd = function()
-        local root = vim.fs.root(0, { "package.json", ".eslintrc.js", ".git" })
-        return root or vim.fn.getcwd()
-      end,
-    }
+    local function try_lint()
+      local bufname = vim.api.nvim_buf_get_name(0)
+      if bufname:match("%.swiftinterface$") then
+        return
+      end
+
+      if eslint_filetypes[vim.bo.filetype] then
+        if bufname ~= "" and vim.fs.root(bufname, oxlint_configs) then
+          return -- Oxlint LSP handles this project.
+        end
+
+        local root = bufname ~= "" and vim.fs.root(bufname, { "package.json", ".eslintrc.js", ".git" })
+        lint.try_lint(nil, { cwd = root or vim.fn.getcwd() })
+        return
+      end
+
+      lint.try_lint()
+    end
 
     local lint_augroup = vim.api.nvim_create_augroup("lint", { clear = true })
 
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {
       group = lint_augroup,
-      callback = function()
-        local bufname = vim.api.nvim_buf_get_name(0)
-        if bufname:match("%.swiftinterface$") then
-          return
-        end
-        lint.try_lint()
-      end,
+      callback = try_lint,
     })
 
     vim.keymap.set("n", "<leader>l", function()
-      lint.try_lint()
+      try_lint()
     end, { desc = "Trigger linting for current file" })
   end,
 }

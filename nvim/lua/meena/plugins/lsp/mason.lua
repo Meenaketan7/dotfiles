@@ -75,7 +75,6 @@ return {
 
         -- Haskell
         "fourmolu", -- Haskell formatter
-        "stylish-haskell", -- Haskell formatter (alt)
       },
     })
   end,
